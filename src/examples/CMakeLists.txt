@@ -1,4 +1,5 @@
 add_subdirectory(aes)
+add_subdirectory(aes_cbc)
 add_subdirectory(bench_operations)
 add_subdirectory(euclidean_distance)
 add_subdirectory(float)
