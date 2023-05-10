@@ -19,6 +19,7 @@
 #include "../../../abycore/circuit/booleancircuits.h"
 #include "../../../abycore/sharing/sharing.h"
 #include <ENCRYPTO_utils/cbitvector.h>
+#include <ENCRYPTO_utils/timer.h>
 
 static uint32_t* pos_even;
 static uint32_t* pos_odd;
@@ -155,13 +156,16 @@ int32_t test_aes_circuit(e_role role, const std::string& address, uint16_t port,
 #ifndef BATCH
 	std::cout << "all tests succeeded" << std::endl;
 #else
-	std::cout << party->GetTiming(P_SETUP) << "\t" << party->GetTiming(P_GARBLE) << "\t" << party->GetTiming(P_ONLINE) << "\t" << party->GetTiming(P_TOTAL) <<
-			"\t" << party->GetSentData(P_TOTAL) + party->GetReceivedData(P_TOTAL) << "\t";
-	if(sharing == S_YAO_REV) {
-		std::cout << sharings[S_YAO]->GetNumNonLinearOperations() +sharings[S_YAO_REV]->GetNumNonLinearOperations() << "\t" << sharings[S_YAO]->GetMaxCommunicationRounds()<< std::endl;
-	} else  {
-		std::cout << sharings[sharing]->GetNumNonLinearOperations()	<< "\t" << sharings[sharing]->GetMaxCommunicationRounds()<< std::endl;
-	}
+
+    PrintTimingsJson();
+    PrintCommunicationJson();
+//	std::cout << party->GetTiming(P_SETUP) << "\t" << party->GetTiming(P_GARBLE) << "\t" << party->GetTiming(P_ONLINE) << "\t" << party->GetTiming(P_TOTAL) <<
+//			"\t" << party->GetSentData(P_TOTAL) + party->GetReceivedData(P_TOTAL) << "\t";
+//	if(sharing == S_YAO_REV) {
+//		std::cout << sharings[S_YAO]->GetNumNonLinearOperations() +sharings[S_YAO_REV]->GetNumNonLinearOperations() << "\t" << sharings[S_YAO]->GetMaxCommunicationRounds()<< std::endl;
+//	} else  {
+//		std::cout << sharings[sharing]->GetNumNonLinearOperations()	<< "\t" << sharings[sharing]->GetMaxCommunicationRounds()<< std::endl;
+//	}
 #endif
 	delete crypt;
 	delete party;
