@@ -152,7 +152,7 @@ std::vector<share*> BuildAESCircuit(std::vector<share*> in_blocks, share* key, B
         for(auto key_id: key->get_wires()) {
             inp_ids.push_back(key_id);
         }
-        auto t = circ->PutGateFromFile(std::string("../../bin/circ/AES-non-expanded.aby"), inp_ids);
+        auto t = circ->PutGateFromFile(std::string("../../bin/circ/aes_128.aby"), inp_ids);
         delete chaining_state;
         chaining_state = new boolshare(t, circ);
         out_shares[i] = new boolshare(circ->PutOUTGate(t, CLIENT), circ);
