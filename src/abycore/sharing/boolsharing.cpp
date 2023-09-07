@@ -133,7 +133,6 @@ void BoolSharing::PrepareSetupPhase(ABYSetup* setup) {
 	 */
 	if(m_nTotalNumMTs > 0) {
 		PrepareSetupPhaseMTs(setup);
-
 	}
 	/*
 	 * If no OP-LUT tables need to be pre-computed omit this method
@@ -153,7 +152,8 @@ void BoolSharing::PrepareSetupPhaseMTs(ABYSetup* setup) {
 		   If the precomputation is READ or in Reading phase when in RAM mode, the MTs doesn't need to be
 		   computed again and therefore following check is done.
 	 */
-	if((GetPreCompPhaseValue() != ePreCompRead)&&(GetPreCompPhaseValue() != ePreCompRAMRead)) {
+    ePreCompPhase phase = GetPreCompPhaseValue();
+	if((phase != ePreCompRead)&&(phase != ePreCompRAMRead)&&(phase != ePreCompInsecure)) {
 
 #ifdef USE_KK_OT_FOR_MT
 		for (uint32_t j = 0; j < 2; j++) {
@@ -411,10 +411,15 @@ void BoolSharing::InitializeMTs() {
 	for (uint32_t i = 0; i < m_nNumANDSizes; i++) {
 		if(i == 0) mtbitlen = 1;
 		else mtbitlen = PadToMultiple(m_vANDs[i].bitlen, 8);
-		//A contains the  choice bits for the OTs
-		m_vA[i].Create(m_nNumMTs[i], m_cCrypto);
-		//B contains the correlation between the OTs
-		m_vB[i].Create(m_nNumMTs[i] * mtbitlen, m_cCrypto);
+        if(GetPreCompPhaseValue()==ePreCompInsecure) {
+            m_vA[i].Create(m_nNumMTs[i]);
+            m_vB[i].Create(m_nNumMTs[i] * mtbitlen);
+        } else {
+            //A contains the  choice bits for the OTs
+            m_vA[i].Create(m_nNumMTs[i], m_cCrypto);
+            //B contains the correlation between the OTs
+            m_vB[i].Create(m_nNumMTs[i] * mtbitlen, m_cCrypto);
+        }
 		//C contains the zero mask and is later computed correctly
 		m_vC[i].Create(m_nNumMTs[i] * mtbitlen);
 		//S is a temporary buffer and contains the result of the OTs where A is used as choice bits

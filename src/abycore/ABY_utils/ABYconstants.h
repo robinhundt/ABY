@@ -199,7 +199,8 @@ enum ePreCompPhase {
 	ePreCompStore	= 1,
 	ePreCompRead	= 2,
 	ePreCompRAMWrite = 3,
-	ePreCompRAMRead = -3
+	ePreCompRAMRead = -3,
+    ePreCompInsecure = 4
 };
 
 /**

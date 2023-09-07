@@ -28,12 +28,15 @@ static uint32_t* pos_odd;
 
 int32_t test_aes_circuit(e_role role, const std::string& address, uint16_t port, seclvl seclvl, uint32_t nvals, uint32_t nthreads,
 		e_mt_gen_alg mt_alg, e_sharing sharing, [[maybe_unused]] bool verbose, bool use_vec_ands, bool expand_in_sfe, bool client_only,
-        uint32_t input_blocks) {
+        uint32_t input_blocks, bool insecure) {
 	uint32_t bitlen = 32;
 	uint32_t aes_key_bits;
 	ABYParty* party = new ABYParty(role, address, port, seclvl, bitlen, nthreads, mt_alg, 4000000);
     assert(sharing == S_BOOL);
 	std::vector<Sharing*>& sharings = party->GetSharings();
+    if(insecure) {
+        sharings[S_BOOL]->SetPreCompPhaseValue(ePreCompInsecure);
+    }
 
 	crypto* crypt = new crypto(seclvl.symbits, (uint8_t*) const_seed);
 	CBitVector key, verify;

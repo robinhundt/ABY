@@ -56,7 +56,7 @@ int32_t test_aes_circuit(e_role role, const std::string& address, uint16_t port,
                          uint32_t nvals, uint32_t nthreads, e_mt_gen_alg mt_alg, e_sharing sharing,
                          bool verbose = false, bool use_vec_ands = false,
                          bool expand_in_sfe = false, bool client_only = false,
-                         uint32_t input_bytes = 16);
+                         uint32_t input_bytes = 16, bool insecure = false);
 
 std::vector<share*> BuildAESCircuit(std::vector<share*> val, share* key, BooleanCircuit* circ);
 

@@ -122,7 +122,9 @@ void ABYParty::ConnectAndBaseOTs() {
 #endif
 		/* Pre-Compute Naor-Pinkas base OTs by starting two threads */
 		StartRecording("Starting NP OT", P_BASE_OT, m_vSockets);
-		m_pSetup->PrepareSetupPhase(m_tComm.get());
+        if(m_vSharings[S_BOOL]->GetPreCompPhaseValue()!=ePreCompInsecure) {
+            m_pSetup->PrepareSetupPhase(m_tComm.get());
+        }
 		StopRecording("Time for NP OT: ", P_BASE_OT, m_vSockets);
 
 		is_online = true;
