@@ -31,7 +31,7 @@ int32_t test_aes_circuit(e_role role, const std::string& address, uint16_t port,
         uint32_t input_blocks, bool insecure) {
 	uint32_t bitlen = 32;
 	uint32_t aes_key_bits;
-	ABYParty* party = new ABYParty(role, address, port, seclvl, bitlen, nthreads, mt_alg, 4000000);
+	ABYParty* party = new ABYParty(role, address, port, seclvl, bitlen, nthreads, mt_alg, 10000);
     assert(sharing == S_BOOL);
 	std::vector<Sharing*>& sharings = party->GetSharings();
     if(insecure) {
